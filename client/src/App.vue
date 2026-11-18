@@ -19,7 +19,6 @@ const navItems: Array<{
   { path: '/market', label: '技能广场', icon: '⌕' },
   { path: '/orders', label: '订单', icon: '⇄', auth: true },
   { path: '/chat', label: '消息', icon: '◌', auth: true },
-  { path: '/presentation', label: '项目介绍', icon: '▣' },
   { path: '/admin', label: '管理后台', icon: '⚙', auth: true, admin: true },
 ]
 
@@ -33,7 +32,6 @@ const visibleNav = computed(() =>
 const mobileNavItems = computed(() =>
   visibleNav.value.filter((item) => !item.admin || item.path === '/admin'),
 )
-const isPresentation = computed(() => route.path.startsWith('/presentation'))
 
 function logout() {
   clearAuth()
@@ -47,7 +45,7 @@ function isActive(path: string) {
 
 <template>
   <div class="app-shell">
-    <header v-if="!isPresentation" class="site-header">
+    <header class="site-header">
       <div class="header-inner">
         <RouterLink to="/" class="brand">
           <span class="brand-mark">时</span>
@@ -84,22 +82,19 @@ function isActive(path: string) {
       </div>
     </header>
 
-    <main class="main-content" :class="{ 'presentation-main': isPresentation }">
+    <main class="main-content">
       <RouterView />
     </main>
 
-    <footer v-if="!isPresentation" class="site-footer">
+    <footer class="site-footer">
       <div>
         <strong>时光集市</strong>
         <span>让每一种技能，都值得被看见。</span>
       </div>
-      <div class="footer-links">
-        <span>校园技能与时间互换平台 · Web 课程项目</span>
-        <RouterLink to="/presentation">项目验收展示 →</RouterLink>
-      </div>
+      <span>校园技能与时间互换平台 · Web 课程项目</span>
     </footer>
 
-    <nav v-if="!isPresentation" class="mobile-nav" aria-label="移动端导航">
+    <nav class="mobile-nav" aria-label="移动端导航">
       <RouterLink
         v-for="item in mobileNavItems"
         :key="item.path"
